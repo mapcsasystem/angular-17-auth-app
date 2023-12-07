@@ -5,6 +5,6 @@ import { RouterModule } from '@angular/router';
   selector: 'app-auth',
   standalone: true,
   imports: [RouterModule],
-  template: `<router-outlet />`,
+  templateUrl: './auth.component.html',
 })
 export class AuthComponent {}
