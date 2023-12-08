@@ -1,4 +1,8 @@
-# Angular17AuthApp
+# Angular-17-AuthApp
+
+## Para poder usar el backend
+
+#### [NestJS backend](https://github.com/mapcsasystem/mean-backend.git)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.6.
 
