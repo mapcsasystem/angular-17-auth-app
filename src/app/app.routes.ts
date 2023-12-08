@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
-import { isAuthenticatedGuard } from './auth/guards/isAuthenticated.guard';
+import { isAuthenticatedGuard, isNotAuthenticatedGuard } from './auth/guards';
 
 export const routes: Routes = [
+  //#region Paths Auth
   {
     path: 'auth',
     loadComponent: () =>
       import('./auth/auth.component').then((c) => c.AuthComponent),
+    canActivate: [isNotAuthenticatedGuard],
     children: [
       {
         path: 'login',
@@ -29,6 +31,9 @@ export const routes: Routes = [
       },
     ],
   },
+  //#endregion
+
+  //#region Paths Dashboard
   {
     path: 'dashboard',
     title: 'Dashboard',
@@ -38,6 +43,7 @@ export const routes: Routes = [
         (c) => c.DashboardComponent
       ),
   },
+  //#endregion
   {
     path: '**',
     redirectTo: 'auth',
