@@ -1,9 +1,14 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
-import { AuthStatus, LoginResponse, User } from '../interfaces';
+import {
+  AuthStatus,
+  CheckTokenResponse,
+  LoginResponse,
+  User,
+} from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -27,13 +32,7 @@ export class AuthService {
       password,
     };
     return this.http.post<LoginResponse>(url, body).pipe(
-      tap(({ user, token }) => {
-        this._currentUser.set(user);
-        console.log(this._currentUser());
-        this._authStatus.set(AuthStatus.authenticated);
-        localStorage.setItem('token', token);
-      }),
-      map(() => true),
+      map(({ token, user }) => this.setAuthentication(user, token)),
       catchError((err) => {
         return throwError(() => {
           localStorage.clear();
@@ -41,5 +40,30 @@ export class AuthService {
         });
       })
     );
+  }
+
+  checkToken(): Observable<boolean> {
+    const url = `${this.baseUrl}/auth/check-token`;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      localStorage.clear();
+      return of(false);
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<CheckTokenResponse>(url, { headers }).pipe(
+      map(({ token, user }) => this.setAuthentication(user, token)),
+      catchError(() => {
+        this._authStatus.set(AuthStatus.notAuthenticated);
+        localStorage.clear();
+        return of(false);
+      })
+    );
+  }
+
+  private setAuthentication(user: User, token: string): boolean {
+    this._currentUser.set(user);
+    this._authStatus.set(AuthStatus.authenticated);
+    localStorage.setItem('token', token);
+    return true;
   }
 }
