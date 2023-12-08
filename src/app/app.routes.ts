@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isAuthenticatedGuard } from './auth/guards/isAuthenticated.guard';
 
 export const routes: Routes = [
   {
@@ -31,8 +32,11 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     title: 'Dashboard',
+    canActivate: [isAuthenticatedGuard],
     loadComponent: () =>
-      import('./dasboard/dasboard.component').then((c) => c.DasboardComponent),
+      import('./dashboard/dashboard.component').then(
+        (c) => c.DashboardComponent
+      ),
   },
   {
     path: '**',

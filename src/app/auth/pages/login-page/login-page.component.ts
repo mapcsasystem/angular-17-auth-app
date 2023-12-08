@@ -26,8 +26,8 @@ export class LoginPageComponent implements OnDestroy {
   private router = inject(Router);
 
   public myForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    email: ['mapcsasystem@gmail.com', [Validators.required, Validators.email]],
+    password: ['123456', [Validators.required, Validators.minLength(6)]],
   });
 
   private _sub = new Subscription();
@@ -42,14 +42,13 @@ export class LoginPageComponent implements OnDestroy {
     this._sub.add(
       this.authService.login(email, password).subscribe({
         next: (value) => {
-          console.log(value);
           this.router.navigateByUrl('/dashboard', { replaceUrl: true });
         },
         error: (errorMessage) => {
           if (errorMessage === 401) {
             Swal.fire({
               title: 'Error',
-              text: 'Las correo ó contraseña incorrectos',
+              text: 'El correo ó contraseña son incorrectos',
               icon: 'error',
               confirmButtonText: 'Aceptar',
             });
