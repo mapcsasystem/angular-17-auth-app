@@ -26,8 +26,8 @@ export class LoginPageComponent implements OnDestroy {
   private router = inject(Router);
 
   public myForm = this.fb.group({
-    email: ['mapcsasystem@gmail.com', [Validators.required, Validators.email]],
-    password: ['123456', [Validators.required, Validators.minLength(6)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   private _sub = new Subscription();
