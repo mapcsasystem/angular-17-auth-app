@@ -49,6 +49,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) {
       localStorage.clear();
+      this.logout();
       return of(false);
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -60,6 +61,12 @@ export class AuthService {
         return of(false);
       })
     );
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this._currentUser.set(null);
+    this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
   private setAuthentication(user: User, token: string): boolean {

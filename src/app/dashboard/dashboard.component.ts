@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../auth/services/auth.service';
 
@@ -12,8 +12,14 @@ import { AuthService } from '../auth/services/auth.service';
 })
 export class DashboardComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
   public user = computed(() => this.authService.currentUser());
+
   // get user(): WritableSignal<User | null> {
   //   return this.authService.currentUser();
   // }
+  onLogout(): void {
+    this.authService.logout();
+    // this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+  }
 }

@@ -3,5 +3,6 @@
 <h3>User</h3>
 <pre>{{ user() | json }}</pre>
 <br>
-<span routerLink="/auth/login" style="cursor: pointer;">logout</span>
+<!-- <span routerLink="/auth/login" style="cursor: pointer;">logout</span> -->
+<button (click)="onLogout()">Cerrar Sesión</button>
 <router-outlet />
