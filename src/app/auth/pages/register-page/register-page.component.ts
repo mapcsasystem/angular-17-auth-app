@@ -27,9 +27,7 @@ export class RegisterPageComponent implements OnDestroy {
 
   private _sub = new Subscription();
 
-  summit() {
-    console.log(this.myForm.value);
-  }
+  summit() {}
 
   ngOnDestroy(): void {
     this._sub.unsubscribe();

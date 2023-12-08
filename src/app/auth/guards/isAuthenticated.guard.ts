@@ -8,9 +8,11 @@ import { AuthStatus } from '../interfaces';
 
 export const isAuthenticatedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
-  console.log({ status: authService.authStatus() });
   if (authService.authStatus() === AuthStatus.authenticated) {
     return true;
+  }
+  if (authService.authStatus() === AuthStatus.checking) {
+    return false;
   }
   // const url = state.url;
   // localStorage.setItem('url', url);
